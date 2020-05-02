@@ -1,0 +1,87 @@
+import subprocess
+from xml.dom import minidom
+import time,sys
+
+def systemCmd(cmd):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    #status = p.wait()
+    output, error = p.communicate()
+    return output,error
+
+def drozerDeviceConnectivityCheck():
+
+    while (True):
+        cmd = 'drozer console connect -c "list"'
+        op, err = systemCmd(cmd)
+
+        if 'app.activity.forintent' in op:
+            sys.stdout.write("\rDrozer connection established with device !")
+            time.sleep(2)
+            sys.stdout.flush()
+            sys.stdout.write("\r Running tests..")
+            sys.stdout.flush()
+            return None
+        else:
+            sys.stdout.write("\rTurn on drozer in device.. #")
+            sys.stdout.flush()
+            time.sleep(0.80)
+            sys.stdout.write("\rTurn on drozer in device.. ##")
+            sys.stdout.flush()
+            time.sleep(0.80)
+            sys.stdout.write("\rTurn on drozer in device.. ###")
+            sys.stdout.flush()
+
+def run(scope):
+
+    logfile = open("Logs/Providers_log.txt","wb")
+    withoutProvider = []
+    withProvider = []
+    #ApkList = "./Apks/apkList.txt"
+    ApkList = scope
+    count = 0
+
+    cmd = 'adb forward tcp:31415 tcp:31415'
+    op = systemCmd(cmd)
+
+    #drozerDeviceConnectivityCheck()
+
+    logfile.write("\n\n\n##### Apps with exported services and their info : #####\n\n\n")
+    with open(ApkList) as file:
+        for line in file:
+            # print line
+
+            cmd = 'drozer console connect -c "run app.provider.info -a ' + line.rstrip() + '"'
+            op,err = systemCmd(cmd)
+            # print cmd
+            # print op
+
+            if 'No matching providers.' in op:
+                #print line
+                withoutProvider.append(line)
+
+            else:
+                count += 1
+                withProvider.append(line)
+                logfile.write(op.split("\n",2)[2])                 # op.split("\n",2)[2] split is used to remove first two lines form output as it contains junk
+
+    #print withReciever
+    #print withoutReciever
+
+    logfile.write("\n\n\n#####Apps with with exported content providers#####\n\n\n")
+    for i in withProvider:
+        logfile.write(i.rstrip()+"\n")
+
+    logfile.write("\n\n\n#####Apps without exported content providers#####\n\n\n")
+    for j in withoutProvider:
+        logfile.write(j.rstrip()+"\n")
+
+        sys.stdout.write("\r[!] Info : "+ str(count) + " Apks with exported content providers found. Verify permissions manually. Info in Logs/Providers_log.txt")
+
+    testResults = open("Logs/TestResults.txt", "a")
+    testResults.write("\n[!] Info : "+ str(count) + " Apks with exported content providers found. Verify permissions manually. Info in Logs/Providers_log.txt")
+    testResults.close()
+
+    logfile.close()
+
+#run("nonDeviceApks.txt")
+
