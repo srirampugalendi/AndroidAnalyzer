@@ -5,17 +5,17 @@
 \_/\_/\_)__)(____/(__\_) \__/(__)(____/  \_/\_/\_)__)\_/\_/\____/(__/  (____)(____)(__\_)
 
 
-Introduction
-------------
+**Introduction**
+----------------
 Android analyzer is a modular python tool that performs bulk static analysis of APKs installed in an android device tailored to custom needs.
 
-Installation
-------------
+**Installation**
+----------------
 Does not require installation. main.py can be directly executed.
 
 
-System requirements
--------------------
+**System requirements**
+-----------------------
 Tools is tested running with Windows 10 and Python 2.7
 
 
