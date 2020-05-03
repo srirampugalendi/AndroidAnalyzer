@@ -1,11 +1,6 @@
+# AndroidAnalyzer
 
-  __   __ _  ____  ____   __  __  ____     __   __ _   __   __    _  _  ____  ____  ____ 
- / _\ (  ( \(    \(  _ \ /  \(  )(    \   / _\ (  ( \ / _\ (  )  ( \/ )(__  )(  __)(  _ \
-/    \/    / ) D ( )   /(  O ))(  ) D (  /    \/    //    \/ (_/\ )  /  / _/  ) _)  )   /
-\_/\_/\_)__)(____/(__\_) \__/(__)(____/  \_/\_/\_)__)\_/\_/\____/(__/  (____)(____)(__\_)
-
-
-# Introduction
+Introduction
 ------------
 Android analyzer is a modular python tool that performs bulk static analysis of APKs installed in an android device tailored to custom needs.
 
